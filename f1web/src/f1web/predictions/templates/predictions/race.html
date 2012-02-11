@@ -1,0 +1,21 @@
+{% extends "predictions/basic.html" %}
+
+{% block title %}
+Race {{ race.championship }} {{ race.name }}
+{% endblock %}
+
+{% block content %}
+Race {{ race.championship }} {{ race.name }}
+
+{% if prediction_form %}
+	<form method="POST">
+		{% csrf_token %}
+		<table>
+			{{ prediction_form.as_table }}
+		</table>
+		
+		<input type="submit"/>
+	</form>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>F1 Web - {%block title %}Title{% endblock %}</title>
+	</head>
+	<body>
+		{% if user.is_authenticated %}
+			{{ user.username }}
+			<a href="{% url django.contrib.auth.views.logout %}?next=/">logout</a>
+		{% else %}
+			<a href="{% url django.contrib.auth.views.login %}?next={{ request.get_full_path }}">login</a>
+		{% endif %}
+		
+		<a href="{% url races %}">Races</a>
+		
+		{%block content %}
+			Content
+		{% endblock %}
+		
+	</body>
+</html>

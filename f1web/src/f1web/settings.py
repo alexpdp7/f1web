@@ -1,6 +1,7 @@
 # Django settings for f1web project.
 
 from f1web import localsettings
+from django.conf import settings
 
 DEBUG = localsettings.DEBUG
 TEMPLATE_DEBUG = DEBUG
@@ -93,6 +94,10 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+) 
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -120,6 +125,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'f1web.championship',
+    'f1web.predictions',
 )
 
 # A sample logging configuration. The only tangible logging

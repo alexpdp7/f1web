@@ -1,6 +1,8 @@
 # Django settings for f1web project.
 
-DEBUG = True
+from f1web import localsettings
+
+DEBUG = localsettings.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

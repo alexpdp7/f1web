@@ -3,7 +3,7 @@ from f1web.championship.models import Race
 from f1web.predictions.forms import PredictionForm
 from f1web.predictions.models import Prediction, PredictionPosition
 from datetime import date
-from django.forms.models import modelformset_factory, modelform_factory
+from django.forms.models import modelformset_factory
 
 def index(request):
     return render(request, 'predictions/index.html')

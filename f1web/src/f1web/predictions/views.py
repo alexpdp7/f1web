@@ -3,7 +3,7 @@ from f1web.championship.models import Race
 from f1web.predictions.forms import PredictionForm
 from f1web.predictions.models import Prediction, PredictionPosition
 from datetime import date
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, modelform_factory
 
 def index(request):
     return render(request, 'predictions/index.html')
@@ -34,7 +34,11 @@ def race(request, championship, race_code):
             exclude=('prediction',)
             )
         
-        top_ten = TopTenFormSet(request.POST if request.POST else None, queryset=PredictionPosition.objects.filter(prediction=prediction))
+        top_ten = TopTenFormSet(
+            request.POST if request.POST else None, 
+            queryset=PredictionPosition.objects.filter(prediction=prediction),
+            initial=[{'position': position} for position in range(1,11)]
+            )
         
         if request.POST:
             prediction_positions = top_ten.save(commit=False)

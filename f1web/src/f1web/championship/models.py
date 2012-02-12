@@ -41,6 +41,17 @@ class RaceResult(models.Model):
     pole_position = models.ForeignKey(Driver, related_name='poles')
     fastest_lap = models.ForeignKey(Driver, related_name='fastest_laps')
     top_ten = models.ManyToManyField(Driver, through='RaceResultPosition')
+    
+    def list_display_race_championship(self):
+        return self.race.championship
+    def list_display_race_code(self):
+        return self.race.code
+    def list_display_race_name(self):
+        return self.race.name
+    def list_display_race_date(self):
+        return self.race.date
+
+
 
 class RaceResultPosition(models.Model):
     race_result = models.ForeignKey(RaceResult)

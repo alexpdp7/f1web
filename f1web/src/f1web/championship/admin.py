@@ -19,6 +19,7 @@ class RaceResultPositionInline(admin.TabularInline):
     extra = 10
 
 class RaceResultAdmin(admin.ModelAdmin):
+    list_display = ('list_display_race_championship', 'list_display_race_code', 'list_display_race_name', 'list_display_race_date')
     inlines = (RaceResultPositionInline,)
 
 admin.site.register(Championship)

@@ -3,7 +3,7 @@ from django.db import models
 class Championship(models.Model):
     year = models.IntegerField(primary_key=True)
     
-    def __str__(self):
+    def __unicode__(self):
         return str(self.year)
 
 class Race(models.Model):
@@ -12,14 +12,14 @@ class Race(models.Model):
     name = models.CharField(max_length=100)
     date = models.DateField()
     
-    def __str__(self):
+    def __unicode__(self):
         return str(self.championship) + " - " + self.code + " - " +self.name
 
 class Team(models.Model):
     code = models.CharField(max_length=3, primary_key=True)
     name = models.CharField(max_length=100)
     
-    def __str__(self):
+    def __unicode__(self):
         return self.code + " - " + self.name
 
 class Driver(models.Model):
@@ -27,7 +27,7 @@ class Driver(models.Model):
     name = models.CharField(max_length=100)
     teams = models.ManyToManyField(Team, through = 'DriverTeamAssignment')
     
-    def __str__(self):
+    def __unicode__(self):
         return self.code + " - " + self.name
 
 class DriverTeamAssignment(models.Model):

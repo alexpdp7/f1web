@@ -1,0 +1,54 @@
+{% extends "predictions/basic.html" %}
+
+{% block title %}
+Race {{ race.championship }} {{ race.name }}
+{% endblock %}
+
+{% block content %}
+Race {{ race.championship }} {{ race.name }}
+
+{% if prediction %}
+	<h1>Result</h1>
+	
+	<p>
+		Pole: {{ race.raceresult.pole_position }} <br/>
+		Fastest lap: {{ race.raceresult.fastest_lap }}
+	</p>
+	
+	<table>
+		{% for position in race.raceresult.raceresultposition_set.all %}
+			<tr>
+				<td>{{ position.position }}</td>
+				<td>{{ position.driver }}</td>
+			</tr>
+		{% endfor %}
+	</table> 
+	
+	<h1>Your prediction</h1>
+	<p>
+		Pole: {{ prediction.pole_position }} <br/>
+		Fastest lap: {{ prediction.fastest_lap }}
+	</p>
+	
+	<table>
+		{% for position in prediction.predictionposition_set.all %}
+			<tr>
+				<td>{{ position.position }}</td>
+				<td>{{ position.driver }}</td>
+			</tr>
+		{% endfor %}
+	</table> 
+	
+	<table>
+		<tr><td>Correct name among top 10<td>{{ prediction_calculation.correct_name_among_top_10 }}</td></tr>
+		<tr><td>Correct name among top 3<td>{{ prediction_calculation.correct_name_among_top_3 }}</td></tr>
+		<tr><td>Correct finishing position<td>{{ prediction_calculation.correct_finishing_position }}</td></tr>
+		<tr><td>Correct winner<td>{{ prediction_calculation.correct_winner }}</td></tr>
+		<tr><td>Correct fastest lap<td>{{ prediction_calculation.correct_fastest_lap }}</td></tr>
+		<tr><td>Correct team<td>{{ prediction_calculation.correct_team }}</td></tr>
+		<tr><td>Total<td>{{ prediction_calculation.total }}</td></tr>
+	</table>
+
+{% endif %}
+
+{% endblock %}

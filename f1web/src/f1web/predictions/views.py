@@ -2,6 +2,7 @@ from django.shortcuts import render
 from f1web.championship.models import Race
 from f1web.predictions.forms import PredictionForm
 from f1web.predictions.models import Prediction, PredictionPosition
+from f1web.predictions.calculator import calculate
 from datetime import date
 from django.forms.models import modelformset_factory
 
@@ -10,12 +11,9 @@ def index(request):
 
 def race(request, championship, race_code):
     race = Race.objects.get(championship=championship, code=race_code)
-    prediction_form = None
-    top_ten = None
-    
+    user_race_predictions = Prediction.objects.filter(race=race, user=request.user)
+
     if race.date > date.today() and request.user.is_authenticated():
-        user_race_predictions = Prediction.objects.filter(race=race, user=request.user)
-        
         if user_race_predictions.count() > 0:
             prediction = user_race_predictions.all()[0]
         else: 
@@ -47,8 +45,17 @@ def race(request, championship, race_code):
                 prediction_position.prediction = prediction
                 prediction_position.save()
 
-    return render(request, 'predictions/race.html', {
-        'race': race,
-        'prediction_form': prediction_form, 
-        'top_ten': top_ten,
-    })
+        return render(request, 'predictions/race_enter_prediction.html', {
+            'race': race,
+            'prediction_form': prediction_form, 
+            'top_ten': top_ten,
+        })
+    else:
+        if user_race_predictions.exists():
+            prediction = user_race_predictions.all()[0]
+            prediction_calculation = calculate(prediction)
+            return render(request, 'predictions/race_view_prediction.html', {
+                'race': race,
+                'prediction': prediction, 
+                'prediction_calculation': prediction_calculation,
+            })

@@ -4,7 +4,7 @@ from f1web.championship.models import Race, Driver
 
 class Prediction(models.Model):
     user = models.ForeignKey(User)
-    race = models.OneToOneField(Race)
+    race = models.ForeignKey(Race)
     pole_position = models.ForeignKey(Driver, related_name='+')
     fastest_lap = models.ForeignKey(Driver, related_name='+')
     top_ten = models.ManyToManyField(Driver, through='PredictionPosition')

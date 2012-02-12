@@ -29,6 +29,9 @@ class Driver(models.Model):
     
     def __unicode__(self):
         return self.code + " - " + self.name
+    
+    def team_for_race(self, race):
+        return self.driverteamassignment_set.get(assigned_from__lte=race.date,assigned_to__gte=race.date).team
 
 class DriverTeamAssignment(models.Model):
     team = models.ForeignKey(Team)
@@ -50,8 +53,6 @@ class RaceResult(models.Model):
         return self.race.name
     def list_display_race_date(self):
         return self.race.date
-
-
 
 class RaceResultPosition(models.Model):
     race_result = models.ForeignKey(RaceResult)

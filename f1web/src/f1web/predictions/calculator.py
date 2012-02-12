@@ -43,7 +43,14 @@ class PredictionCalculation():
         return 2 if self.prediction.pole_position == self.race_result().pole_position else 0
     
     def correct_team(self):
-        return 0
+        predicted_teams = [prediction_position.driver.team_for_race(self.prediction.race) for prediction_position in self.prediction.predictionposition_set.all()]
+        correct_teams = [race_result_position.driver.team_for_race(self.prediction.race) for race_result_position in self.race_result().raceresultposition_set.all()]
+        
+        return sum(
+            [
+                min(
+                    len([predicted_team for predicted_team in predicted_teams if predicted_team == team]),
+                    len([correct_team for correct_team in correct_teams if correct_team == team])) for team in set(correct_teams)])
     
     def total(self):
         return (

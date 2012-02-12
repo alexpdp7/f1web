@@ -11,6 +11,7 @@ def index(request):
 def race(request, championship, race_code):
     race = Race.objects.get(championship=championship, code=race_code)
     prediction_form = None
+    top_ten = None
     
     if race.date > date.today() and request.user.is_authenticated():
         user_race_predictions = Prediction.objects.filter(race=race, user=request.user)

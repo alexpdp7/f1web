@@ -14,6 +14,11 @@ class Race(models.Model):
     
     def __unicode__(self):
         return str(self.championship) + " - " + self.code + " - " +self.name
+    
+    def get_drivers(self):
+        return Driver.objects.filter(
+                        driverteamassignment__assigned_from__lte=self.date, 
+                        driverteamassignment__assigned_to__gte=self.date)
 
 class Team(models.Model):
     code = models.CharField(max_length=3, primary_key=True)

@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from f1web.championship.models import Race
-from f1web.predictions.forms import PredictionForm
+from f1web.predictions.forms import position_formfield_callback
 from f1web.predictions.models import Prediction, PredictionPosition
 from f1web.predictions.calculator import calculate
 from datetime import date
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, modelform_factory
 
 def index(request):
     return render(request, 'predictions/index.html')
@@ -19,6 +19,11 @@ def race(request, championship, race_code):
         else: 
             prediction = Prediction(user=request.user,race=race)
         
+        PredictionForm = modelform_factory(
+            Prediction, 
+            exclude=('user', 'race', 'top_ten',), 
+            formfield_callback=position_formfield_callback(race))
+        
         if request.POST:
             prediction_form = PredictionForm(request.POST, instance = prediction)
             if prediction_form.is_valid():
@@ -30,7 +35,8 @@ def race(request, championship, race_code):
             PredictionPosition, 
             extra=10,
             max_num=10,
-            exclude=('prediction',)
+            exclude=('prediction',),
+            formfield_callback=position_formfield_callback(race),
             )
         
         top_ten = TopTenFormSet(

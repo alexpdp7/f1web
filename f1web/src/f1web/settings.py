@@ -5,9 +5,7 @@ from f1web import localsettings
 DEBUG = localsettings.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
+ADMINS = localsettings.ADMINS
 
 MANAGERS = ADMINS
 
@@ -155,3 +153,10 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST=localsettings.EMAIL_HOST
+EMAIL_PORT=localsettings.EMAIL_PORT
+EMAIL_HOST_USER=localsettings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD=localsettings.EMAIL_HOST_PASSWORD
+EMAIL_USE_TLS=localsettings.EMAIL_USE_TLS
+

@@ -13,3 +13,17 @@ class PredictionPosition(models.Model):
     prediction = models.ForeignKey(Prediction)
     position = models.IntegerField(choices=zip(range(1,11), range(1,11)))
     driver = models.ForeignKey(Driver)
+
+class ScoredPrediction(models.Model):
+    prediction = models.OneToOneField(Prediction, primary_key=True)
+    correct_pole = models.IntegerField()
+    correct_fastest_lap = models.IntegerField()
+    correct_names_among_top_10 = models.IntegerField()
+    correct_names_among_top_3 = models.IntegerField()
+    correct_finishing_position = models.IntegerField()
+    correct_teams = models.IntegerField()
+    correct_winner = models.IntegerField()
+    total = models.IntegerField()
+    
+    class Meta:
+        db_table = 'v_predictions_predictionresult'

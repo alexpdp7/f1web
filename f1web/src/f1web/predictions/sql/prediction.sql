@@ -86,10 +86,17 @@ select race_general.*,
        correct_names_among_top_3.correct_names_among_top_3, 
        correct_finishing_position.correct_finishing_position, 
        correct_teams.correct_teams,
-       correct_names_among_top_10 + correct_names_among_top_3 + correct_finishing_position + correct_teams.correct_teams + race_general.correct_pole + race_general.correct_pole as total
+       correct_winner.correct_winner,
+       correct_names_among_top_10 + 
+       correct_names_among_top_3 + 
+       correct_finishing_position + 
+       correct_teams.correct_teams + 
+       race_general.correct_pole + 
+       correct_winner.correct_winner as total
 from   correct_names_among_top_10
 join   correct_names_among_top_3 using (prediction_id)
 join   correct_finishing_position using (prediction_id)
 join   correct_winner using (prediction_id)
 join   correct_teams using (prediction_id)
 join   race_general using (prediction_id);
+

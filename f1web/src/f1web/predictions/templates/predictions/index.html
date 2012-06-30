@@ -6,4 +6,19 @@ Welcome!
 
 {% block content %}
 Welcome!
+
+<table>
+{% for entry in scores_table %}
+	<tr>
+		<td>{{ entry.0.0 }}</td>
+		<td>{{ entry.0.1 }}</td>
+		{% for user_entry in entry.1.items %}
+			<td>{{ user_entry.0 }}</td>
+			<td>{{ user_entry.1.total }}</td>
+			<td>{{ user_entry.1.total_acc }}</td>
+		{% endfor %}
+	</tr>
+{% endfor %}
+</table>
+
 {% endblock %}

@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from f1web.championship.models import Race
 from f1web.predictions.forms import position_formfield_callback
-from f1web.predictions.models import Prediction, PredictionPosition
+from f1web.predictions.models import Prediction, PredictionPosition, get_scores_table
 from f1web.predictions.calculator import calculate
 from datetime import date
 from django.forms.models import modelformset_factory, modelform_factory
 
 def index(request):
-    return render(request, 'predictions/index.html')
+    return render(request, 'predictions/index.html', {
+        'scores_table': get_scores_table(),
+    })
 
 def race(request, championship, race_code):
     race = Race.objects.get(championship=championship, code=race_code)

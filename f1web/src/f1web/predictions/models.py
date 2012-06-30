@@ -8,6 +8,9 @@ class Prediction(models.Model):
     pole_position = models.ForeignKey(Driver, related_name='+')
     fastest_lap = models.ForeignKey(Driver, related_name='+')
     top_ten = models.ManyToManyField(Driver, through='PredictionPosition')
+    
+    class Meta:
+        unique_together = ['user', 'race',]
 
 class PredictionPosition(models.Model):
     prediction = models.ForeignKey(Prediction)

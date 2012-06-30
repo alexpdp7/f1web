@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from f1web.championship.models import Race, Driver
+from django.db import connection
+from f1web.commons.sql import dictfetchall
+from collections import defaultdict
 
 class Prediction(models.Model):
     user = models.ForeignKey(User)
@@ -30,3 +33,26 @@ class ScoredPrediction(models.Model):
     
     class Meta:
         db_table = 'v_predictions_predictionresult'
+
+def get_scores_table():
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        select   auth_user.username, 
+                 championship_race.name, 
+                 championship_race.date, 
+                 total, sum(total) over (partition by user_id order by championship_race.date) as total_acc 
+        from     v_predictions_predictionresult 
+        join     predictions_prediction on v_predictions_predictionresult.prediction_id = predictions_prediction.id 
+        join     auth_user on predictions_prediction.user_id = auth_user.id 
+        join     championship_race on predictions_prediction.race_id = championship_race.id 
+        order by championship_race.date
+    """)
+    scores_table_raw = dictfetchall(cursor)
+    pivoted_scores = defaultdict(dict)
+
+    for score_entry in scores_table_raw:
+        race_entry = pivoted_scores[(score_entry['date'], score_entry['name'])]
+        race_entry[score_entry['username']] = { 'total': score_entry['total'], 'total_acc': score_entry['total_acc']}
+        
+    return sorted(pivoted_scores.items())

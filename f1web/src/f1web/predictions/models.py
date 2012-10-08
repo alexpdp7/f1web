@@ -19,6 +19,9 @@ class PredictionPosition(models.Model):
     prediction = models.ForeignKey(Prediction)
     position = models.IntegerField(choices=zip(range(1,11), range(1,11)))
     driver = models.ForeignKey(Driver)
+    
+    class Meta:
+        unique_together = (('prediction', 'position'), ('prediction', 'driver'))
 
 class ScoredPrediction(models.Model):
     prediction = models.OneToOneField(Prediction, primary_key=True)

@@ -8,3 +8,5 @@ EMAIL_USE_TLS=True
 ADMINS = (
     ('admin', 'admin@example.com'),
 )
+
+ALLOWED_HOSTS = ['localhost',]

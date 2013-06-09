@@ -11,7 +11,7 @@ Races
 {% for race in object_list %}
 	<tr>
 		<td>
-			<a href="{% url f1web.predictions.views.race race.championship race.code %}">
+			<a href="{% url "f1web.predictions.views.race" race.championship race.code %}">
 				{{ race.championship }}
 				{{ race.code }}
 			</a>

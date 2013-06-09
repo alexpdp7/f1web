@@ -5,12 +5,12 @@
 	<body>
 		{% if user.is_authenticated %}
 			{{ user.username }}
-			<a href="{% url django.contrib.auth.views.logout %}?next=/">logout</a>
+			<a href="{% url "django.contrib.auth.views.logout" %}?next=/">logout</a>
 		{% else %}
-			<a href="{% url django.contrib.auth.views.login %}?next={{ request.get_full_path }}">login</a>
+			<a href="{% url "django.contrib.auth.views.login" %}">login</a>
 		{% endif %}
 		
-		<a href="{% url races %}">Races</a>
+		<a href="{% url "races" %}">Races</a>
 		
 		{%block content %}
 			Content
